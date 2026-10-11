@@ -4,6 +4,8 @@ FROM mcr.microsoft.com/devcontainers/python:3.14
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+COPY requirements.txt /tmp/requirements.txt
+
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -12,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     libgl1 \
-    && rm -rf /var/lib/apt/lists/*
-
+    && rm -rf /var/lib/apt/lists/* && \
+     pip install --upgrade pip \
+&& pip install -r /tmp/requirements.txt
 USER vscode
 WORKDIR /workspace
